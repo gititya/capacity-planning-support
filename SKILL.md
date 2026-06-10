@@ -1,8 +1,8 @@
-# SKILL.md — AI-First Capacity Planner
+# SKILL.md — Capacity Planner
 
 ## Current phase
 **Phase 1 — prototype built (2026-06-10).** Spec fully implemented in `index.html`.
-Math reconciles to the model doc's hand-checked sample. Not yet in git; not yet shared.
+Math reconciles to the hand-checked sample. Not yet in git; not yet shared.
 
 **Phase 1b — packaged & pushed (2026-06-10, later same day).** Now a git repo, pushed
 to **github.com/gititya/capacity-planning-support** (PRIVATE). All external-party names
@@ -54,4 +54,16 @@ the Chart.js CDN scripts on first load.)
 
 ## Do not reopen
 Cost sweet-spot marker (proven impossible), difficulty slider, flat single AHT, full WFM
-platform. See CLAUDE.md + HANDOFF for the full rejected list.
+platform. See CLAUDE.md for the full rejected list.
+
+## Phase 1c — UI redesign + public-prep (2026-06-10)
+Rebuilt `index.html` for intuitiveness: hero thesis ("More AI agents ≠ fewer humans" +
+the volume-game→AHT-game reframe), a live results strip (humans needed / blended cost /
+weekly cost), grouped inputs with tooltips (no per-lever paragraphs), two captioned charts
+(Reality vs Ignoring-difficulty + a clean floor line). Cut the planning lens. Naming fixed:
+humans = "humans", bot = "AI agents" (no more agent collision). `derive()` math untouched
+(still 44 / $4.46 on defaults). Removed the two root docs (`wfm-capacity-the full screen +
+model.md`, `wfm-capacity-planner-HANDOFF.md`) — model now lives in the skill references +
+README. Added MIT `LICENSE`. README rewritten from `~/Downloads/capacity.md` (builder voice,
+2026 Gartner/Robert Half citations, the model formula block). "AI-first" buzzword scrubbed.
+`CLAUDE.md` gitignored (internal). Repo ready to flip public + GitHub Pages.
