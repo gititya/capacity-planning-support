@@ -4,6 +4,20 @@
 **Phase 1 — prototype built (2026-06-10).** Spec fully implemented in `index.html`.
 Math reconciles to the model doc's hand-checked sample. Not yet in git; not yet shared.
 
+**Phase 1b — packaged & pushed (2026-06-10, later same day).** Now a git repo, pushed
+to **github.com/gititya/capacity-planning-support** (PRIVATE). All external-party names
+(Opus / Intercom / Fin / Figma / Gartner) scrubbed from committed files; the Opus
+transcript `original strategy assessment.md` is gitignored (local only, NOT in repo —
+keep it that way). Added:
+- `skills/ai-capacity-planner/` — the model as a deterministic, stdlib-only agent skill
+  (SKILL.md + `scripts/ai_capacity_modeler.py` + two references). Verified it reproduces
+  the hand-checked numbers and flips through all three cost regimes. Positioned as the
+  AI-first layer that runs BEFORE Erlang-C (hands residual off to `capacity-planner`).
+- `README.md` — written in the builder's voice, references github.com/gititya/MARS.
+Ecosystem research done: only one comparable skill exists in the wild
+(`alirezarezvani/claude-skills` business-operations `capacity-planner`, classical Erlang-C,
+no AI mechanics) — the AI-first delta is unoccupied whitespace. Hypothesis confirmed.
+
 ## What exists
 - `index.html` — the working prototype (single file, plain JS, Chart.js via CDN).
 - Two reference docs (model, handoff).
