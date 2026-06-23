@@ -1,3 +1,4 @@
+
 # SKILL.md — Capacity Planner
 
 ## Current phase
@@ -67,3 +68,58 @@ model.md`, `wfm-capacity-planner-HANDOFF.md`) — model now lives in the skill r
 README. Added MIT `LICENSE`. README rewritten from `~/Downloads/capacity.md` (builder voice,
 2026 Gartner/Robert Half citations, the model formula block). "AI-first" buzzword scrubbed.
 `CLAUDE.md` gitignored (internal). Repo ready to flip public + GitHub Pages.
+
+## TODO — induced-demand lever (queued 2026-06-10, not started)
+Add a SECOND lever: induced demand. Source/justification now cited in README — the
+Forbes/Assembled "Deflection Illusion" passage (Ryan Wang, Apr 2 2026): turning on AI
+*creates* contacts that never existed before (suppressed easy questions; the barrier to
+asking drops), so `volume` is not fixed — it rises with coverage. This is the demand-side
+twin of the existing rising-residual-AHT mechanism (survivors are harder vs. there are
+more-and-easier of them). Both push the headcount floor UP — gives the hero a second leg.
+
+Build plan (full design worked out in the session that queued this):
+1. **Math.** `V(coverage) = V₀ × (1 + ε·coverage)`. New input `ε` = "induced demand at
+   full AI" (e.g. 0.3 = +30% volume at 100% coverage). Everything downstream already keys
+   off `volume`, so it recomputes for free.
+2. **Toggle, default OFF / ε=0.** With it off the screen is byte-for-byte today's artifact
+   — must still reconcile to 31 vs 44, $4.46, $39.2k. Adding a second mode, not changing
+   the existing one.
+3. **DECISION (mine to make at build): induced contacts are EASY, not average mix.** They
+   pile on the easy end; AI eats most; only `(1−success)` reach a human at easy AHT. Net:
+   total contacts up a lot, AI cost up, human headcount up modestly, residual AHT drifts
+   *down* slightly (mix got easier). That tension is the interesting moment. (Trivial
+   alternative = uniform `V` scaling; weaker claim, don't use unless asked.)
+4. **Readout + honest flag.** Show "contacts created: +N/wk" under the levers. Floor
+   visibly rises when toggled on. CRITICAL: with ε>0, blended cost = cost(a)/V(a) and the
+   concavity / no-sweet-spot proof NO LONGER HOLDS — an interior cost minimum becomes
+   possible. Regime badge needs a state: "induced demand on — clean-model no-sweet-spot
+   guarantee suspended." This is the project showing the exact boundary of its own proof.
+   Update CLAUDE.md "Hard rules" / caveats accordingly (induced demand is one of the
+   already-listed real-world mechanisms that reintroduce interior optima).
+5. **Re-verify.** ε=0 must reproduce the sample unchanged; one ε>0 value to sanity-check
+   the new path. Re-check against `skills/ai-capacity-planner/references/the_model.md`.
+
+## Phase 2 — article-gap features + walkthrough refactor (2026-06-23)
+Implemented all three features from `FUTURE-FEATURES.md` (prompted by Fernando Duarte's
+article), then refactored the UI into a sequential 5-stage walkthrough.
+
+### Features added (all off by default, reconcile to sample at defaults)
+- **Feature A — AI supervision:** `supMin` input (human oversight min per AI-resolved contact).
+  Adds `supHours = resolutions × supMin / 60` to `humanHours`. Raises floor, widens naive gap.
+- **Feature B — Growth reframe:** `growth` input + Snapshot/Growth toggle. Second `derive()` call
+  with scaled volume. Reframes KPIs: "serve +X% volume with Y humans vs Z at 0% AI."
+- **Feature C — Assisted work (multiplier):** `assistShare` + `assistFactor` inputs. Multiplier
+  approach (keeps two AHT endpoints): `assistMix = 1 - assistShare × (1 - assistFactor)`.
+  Lowers human hours without removing tickets from the queue.
+
+### Walkthrough refactor
+Replaced the 12-input single screen with a 5-stage stepper:
+1. **Staffing** — base model inputs (volume, AI coverage, success, AHT, cost)
+2. **Oversight** — supervision minutes per AI resolution
+3. **Assisted work** — AI pre-processing speedup (channel-agnostic framing)
+4. **Growth** — volume growth projection + Snapshot/Growth toggle
+5. **Summary** — read-only view of all inputs + final KPIs
+
+Each stage reveals its own inputs. Previous stages collapse to a summary chip (clickable
+to navigate back). Stage-specific insight callouts explain the key takeaway. `derive()`
+and `readInputs()` untouched — stage management is pure visibility/CSS.
